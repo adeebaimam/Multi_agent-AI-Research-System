@@ -1,0 +1,14 @@
+langchain
+langchain-core
+langchain_community
+langchain_mistralai
+langchain_openai
+
+openai
+
+tavily-python
+
+beautifulsoup4
+requests
+lxml
+
