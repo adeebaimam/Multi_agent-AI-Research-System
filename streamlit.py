@@ -85,20 +85,41 @@ html, body, [class*="css"] {
     backdrop-filter: blur(8px);
 }
 
-/* ── Streamlit input overrides ── */
-.stTextInput > div > div > input {
-    background: rgba(255,255,255,0.05) !important;
+/* ── Text input fix (robust selectors + placeholder + autofill) ── */
+.stTextInput input,
+div[data-baseweb="input"] input {
+    background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,140,50,0.25) !important;
     border-radius: 10px !important;
     color: #f0ebe0 !important;
+    -webkit-text-fill-color: #f0ebe0 !important;
+    caret-color: #ff8c32 !important;
     font-family: 'DM Sans', sans-serif !important;
     font-size: 1rem !important;
     padding: 0.75rem 1rem !important;
-    transition: border-color 0.2s, box-shadow 0.2s !important;
+    box-shadow: none !important;
 }
-.stTextInput > div > div > input:focus {
+.stTextInput input::placeholder {
+    color: #706860 !important;
+    opacity: 1 !important;
+}
+div[data-baseweb="input"] {
+    background: transparent !important;
+    border: none !important;
+}
+div[data-baseweb="base-input"] {
+    background: transparent !important;
+}
+.stTextInput input:focus {
     border-color: #ff8c32 !important;
     box-shadow: 0 0 0 3px rgba(255,140,50,0.12) !important;
+}
+/* Kill Chrome/Edge autofill white background */
+.stTextInput input:-webkit-autofill,
+.stTextInput input:-webkit-autofill:hover,
+.stTextInput input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px rgba(20,18,22,1) inset !important;
+    -webkit-text-fill-color: #f0ebe0 !important;
 }
 .stTextInput > label {
     font-family: 'DM Mono', monospace !important;
@@ -255,6 +276,50 @@ html, body, [class*="css"] {
     border-bottom: 1px solid rgba(80,200,120,0.15);
 }
 
+/* ── Fix: native st.markdown() output (report + critic panels use this) ── */
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stMarkdownContainer"] span,
+[data-testid="stMarkdownContainer"] strong,
+[data-testid="stMarkdownContainer"] em,
+[data-testid="stMarkdownContainer"] td,
+[data-testid="stMarkdownContainer"] th {
+    color: #e8e4dc !important;
+    line-height: 1.75;
+}
+[data-testid="stMarkdownContainer"] h1,
+[data-testid="stMarkdownContainer"] h2,
+[data-testid="stMarkdownContainer"] h3,
+[data-testid="stMarkdownContainer"] h4 {
+    font-family: 'Syne', sans-serif !important;
+    color: #ff8c32 !important;
+    font-weight: 700 !important;
+    margin-top: 1.2rem !important;
+}
+[data-testid="stMarkdownContainer"] a {
+    color: #ff8c32 !important;
+    text-decoration: underline !important;
+}
+[data-testid="stMarkdownContainer"] code {
+    background: rgba(255,255,255,0.08) !important;
+    color: #ff8c32 !important;
+    padding: 0.15rem 0.4rem !important;
+    border-radius: 4px !important;
+}
+[data-testid="stMarkdownContainer"] pre {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius: 8px !important;
+}
+[data-testid="stMarkdownContainer"] blockquote {
+    border-left: 3px solid #ff8c32 !important;
+    padding-left: 1rem !important;
+    color: #a09890 !important;
+}
+[data-testid="stMarkdownContainer"] hr {
+    border-color: rgba(255,255,255,0.1) !important;
+}
+
 /* ── Progress text ── */
 .stSpinner > div { color: #ff8c32 !important; }
 
@@ -265,6 +330,11 @@ details summary {
     color: #a09890 !important;
     letter-spacing: 0.1em !important;
     cursor: pointer;
+}
+[data-testid="stExpander"] {
+    background: rgba(255,255,255,0.02) !important;
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    border-radius: 12px !important;
 }
 
 /* ── Section heading ── */
@@ -411,8 +481,10 @@ if st.session_state.running and not st.session_state.done:
 
         try:
 
+            API_URL = "https://multi-agent-ai-research-system-7yvl.onrender.com/research"
+
             response = requests.post(
-                "http://127.0.0.1:8000/research",
+                API_URL,
                 json={"topic": topic_val},
                 timeout=300
             )
