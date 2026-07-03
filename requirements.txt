@@ -1,14 +1,24 @@
+fastapi
+uvicorn[standard]
+
+streamlit
+
 langchain
 langchain-core
-langchain_community
-langchain_mistralai
-langchain_openai
+langchain-community
+langchain-mistralai
+langchain-openai
 
 openai
 
 tavily-python
 
 beautifulsoup4
-requests
 lxml
+requests
 
+python-dotenv
+
+pydantic
+
+httpx
