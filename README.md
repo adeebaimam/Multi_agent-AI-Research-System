@@ -140,7 +140,6 @@ Multi_Agent_AI_Research_System/
 │
 ├── agents.py
 ├── api.py
-├── app.py
 ├── pipeline.py
 ├── tools.py
 ├── models.py
@@ -256,7 +255,7 @@ Swagger UI will appear.
 # ▶️ Running the Frontend
 
 ```bash
-streamlit run app.py
+streamlit run streamlit.py
 ```
 
 ---
