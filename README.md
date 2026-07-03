@@ -144,7 +144,7 @@ Multi_Agent_AI_Research_System/
 ├── tools.py
 ├── models.py
 ├── requirements.txt
-├── .env.example
+├── streamlit.py
 ├── README.md
 └── system_design.html
 ```
